@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #E8D1FF;
+  margin: auto;
+  padding: 20px;
+  max-width: 80%;
+  width: 800px;
+  border-radius: 10px;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-h{
+    color: #32283b;
+    font-weight: 500;
+    text-align: center;
+    font-size: 35px;
+}
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #734F96;
+    --bs-btn-border-color: #734F96;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #521a8a;
+    --bs-btn-hover-border-color: #521a8a;
+    --bs-btn-focus-shadow-rgb: none;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #521a8a;
+    --bs-btn-active-border-color: #521a8a;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #0d6efd;
+    --bs-btn-disabled-border-color: #0d6efd;
+    width: 100%;
+    height: 45px;
+    border-radius: 8px;
+}
+.input-field{
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px #734F96 solid;
+    height: 45px;
+    outline: none;
+}
+.input-field.clicked {
+    border: 1px #734F96 solid;
+}
