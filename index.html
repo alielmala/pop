@@ -43,54 +43,91 @@
     </div>
 
     <script>
-        // Get the modal
-        var modal = document.getElementById("myModal");
+        document.addEventListener("DOMContentLoaded", function () {
+            var formContainer = document.getElementById("myModal");
+            var myForm = document.getElementById("pop");
+            var submissionDate = getCookie("submissionDate");
 
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
+            if (submissionDate) {
+                var now = new Date();
+                var thirtyDaysLater = new Date(submissionDate);
+                thirtyDaysLater.setDate(thirtyDaysLater.getDate() + 30);
 
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks on the button, open the modal
-        btn.onclick = function () {
-            modal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+                if (now > thirtyDaysLater) {
+                    // More than 30 days have passed since the last submission
+                    showForm();
+                } else {
+                    // Less than 30 days have passed since the last submission
+                    hideForm();
+                }
+            } else {
+                // Cookie not found, show the form
+                showForm();
             }
-        }
 
-        document.getElementById("pop").addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent the default form submission
+            myForm.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent form submission
 
-            // Collect form data
-            var formData = new FormData(this);
-
-            // Send form data to the server
-            fetch("send_email.php", {
-                method: "POST",
-                body: formData
-            })
-                .then(function (response) {
-                    // Handle the response from the server
-                    if (response.ok) {
-                        document.getElementById("pop").innerHTML = `<p class="alert alert-success mb-0">Email sent successfully!</p>`;
-                    } else {
-                        alert("Error sending email. Please try again.");
-                    }
+                // Process the form data
+                var formData = new FormData(this);
+                // ...
+                // Send form data to the server
+                fetch("send_email.php", {
+                    method: "POST",
+                    body: formData
                 })
-                .catch(function (error) {
-                    console.log("Error:", error);
-                });
+                    .then(function (response) {
+                        // Handle the response from the server
+                        if (response.ok) {
+                            document.getElementById("pop").innerHTML = `<p class="alert alert-success mb-0">Email sent successfully!</p>`;
+                        } else {
+                            alert("Error sending email. Please try again.");
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log("Error:", error);
+                    });
+                // Set the submission date cookie
+                var now = new Date();
+                setCookie("submissionDate", now.toUTCString(), 30);
+
+                // Hide the form
+                hideForm();
+            });
+
+            function showForm() {
+                formContainer.style.display = "block";
+            }
+
+            function hideForm() {
+                formContainer.style.display = "none";
+            }
+
+            // Helper functions to set and get cookies
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(";");
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === " ") {
+                        c = c.substring(1, c.length);
+                    }
+                    if (c.indexOf(nameEQ) === 0) {
+                        return c.substring(nameEQ.length, c.length);
+                    }
+                }
+                return null;
+            }
         });
 
     </script>

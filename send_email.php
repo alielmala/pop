@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $message = $_POST['message'];
 
   // Set the recipient email address
-  $to = 'ali.elmala007@gmail.com';
+  $to = 'ali.elmala22@gmail.com';
 
   // Set the email subject
   $subject = 'New Form Submission';
@@ -21,10 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Send the email
   if (mail($to, $subject, $body, $headers)) {
-        <script type="text/javascript">
-// JavaScript code
-function myFunction() {
-  echo 'success.';
+        
   } else {
     echo 'Error: Unable to send email.';
   }
