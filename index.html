@@ -9,12 +9,11 @@
 </head>
 
 <body>
-    <button id="myBtn">pop-up</button>
     <!-- The Modal -->
     <div id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close ms-auto">&times;</span>
+            <span id="close-btn" class="close ms-auto">&times;</span>
             <div class="pop-up">
                 <h1 class="modal-h mb-3">Subescribe To Newsletter</h1>
                 <div class="row justify-content-around">
@@ -43,92 +42,98 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var formContainer = document.getElementById("myModal");
-            var myForm = document.getElementById("pop");
-            var submissionDate = getCookie("submissionDate");
+document.addEventListener("DOMContentLoaded", function() {
+  var formContainer = document.getElementById("myModal");
+  var myForm = document.getElementById("pop");
+  var submissionDate = getCookie("submissionDate");
+  var closeBtn = document.getElementById("close-btn");
 
-            if (submissionDate) {
-                var now = new Date();
-                var thirtyDaysLater = new Date(submissionDate);
-                thirtyDaysLater.setDate(thirtyDaysLater.getDate() + 30);
+  if (submissionDate) {
+    var now = new Date();
+    var thirtyDaysLater = new Date(submissionDate);
+    thirtyDaysLater.setDate(thirtyDaysLater.getDate() + 30);
 
-                if (now > thirtyDaysLater) {
-                    // More than 30 days have passed since the last submission
-                    showForm();
-                } else {
-                    // Less than 30 days have passed since the last submission
-                    hideForm();
-                }
-            } else {
-                // Cookie not found, show the form
-                showForm();
-            }
+    if (now > thirtyDaysLater) {
+      // More than 30 days have passed since the last submission
+      showForm();
+    } else {
+      // Less than 30 days have passed since the last submission
+      hideForm();
+    }
+  } else {
+    // Cookie not found, show the form
+    showForm();
+  }
 
-            myForm.addEventListener("submit", function (event) {
-                event.preventDefault(); // Prevent form submission
+  myForm.addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
 
-                // Process the form data
-                var formData = new FormData(this);
-                // ...
-                // Send form data to the server
-                fetch("send_email.php", {
-                    method: "POST",
-                    body: formData
-                })
-                    .then(function (response) {
-                        // Handle the response from the server
-                        if (response.ok) {
-                            document.getElementById("pop").innerHTML = `<p class="alert alert-success mb-0">Email sent successfully!</p>`;
-                        } else {
-                            alert("Error sending email. Please try again.");
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log("Error:", error);
-                    });
-                // Set the submission date cookie
-                var now = new Date();
-                setCookie("submissionDate", now.toUTCString(), 30);
+    // Process the form data
+    var formData = new FormData(this);
+    // ...
 
-                // Hide the form
-                hideForm();
-            });
+    // Send form data to the server
+    fetch("send_email.php", {
+      method: "POST",
+      body: formData
+    })
+      .then(function(response) {
+        // Handle the response from the server
+        if (response.ok) {
+          hideForm();
+          // Set the submission date cookie
+          var now = new Date();
+          setCookie("submissionDate", now.toUTCString(), 3000);
+        } else {
+          alert("Error sending email. Please try again.");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error:", error);
+      });
+  });
 
-            function showForm() {
-                formContainer.style.display = "block";
-            }
+  closeBtn.addEventListener("click", function() {
+     var now = new Date();
+    setCookie("submissionDate", now.toUTCString(), 30);
+    // Show the form again
+    hideForm();
+  });
 
-            function hideForm() {
-                formContainer.style.display = "none";
-            }
+  function showForm() {
+    formContainer.style.display = "block";
+  }
 
-            // Helper functions to set and get cookies
-            function setCookie(name, value, days) {
-                var expires = "";
-                if (days) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-                    expires = "; expires=" + date.toUTCString();
-                }
-                document.cookie = name + "=" + (value || "") + expires + "; path=/";
-            }
+  function hideForm() {
+    formContainer.style.display = "none";
+  }
 
-            function getCookie(name) {
-                var nameEQ = name + "=";
-                var ca = document.cookie.split(";");
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) === " ") {
-                        c = c.substring(1, c.length);
-                    }
-                    if (c.indexOf(nameEQ) === 0) {
-                        return c.substring(nameEQ.length, c.length);
-                    }
-                }
-                return null;
-            }
-        });
+  // Helper functions to set and get cookies
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === " ") {
+        c = c.substring(1, c.length);
+      }
+      if (c.indexOf(nameEQ) === 0) {
+        return c.substring(nameEQ.length, c.length);
+      }
+    }
+    return null;
+  }
+});
 
     </script>
 </body>
