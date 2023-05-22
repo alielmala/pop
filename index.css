@@ -1,6 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: sans-serif;
 }
 
 /* The Modal (background) */
@@ -49,32 +48,93 @@ body {
     text-align: center;
     font-size: 35px;
 }
-.btn-primary {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: #734F96;
-    --bs-btn-border-color: #734F96;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #521a8a;
-    --bs-btn-hover-border-color: #521a8a;
-    --bs-btn-focus-shadow-rgb: none;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #521a8a;
-    --bs-btn-active-border-color: #521a8a;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #0d6efd;
-    --bs-btn-disabled-border-color: #0d6efd;
-    width: 100%;
-    height: 45px;
-    border-radius: 8px;
+
+#pop {
+   display: flex;
+   flex-direction: column;
 }
+.btn {
+  border: none;
+  height: 45px;
+  border-radius: 8px;
+  background-color:#734F96;
+  color: white;
+  cursor: pointer;
+  font-size: 17px;
+  margin: 5px 0px;
+}
+.btn:hover {
+  background-color:#521a8a ;
+}
+
 .input-field{
-    padding: 8px 12px;
     border-radius: 8px;
     border: 1px #734F96 solid;
     height: 45px;
     outline: none;
+    padding:0px 15px;
+    margin: 5px 0px;
 }
 .input-field.clicked {
     border: 1px #734F96 solid;
+}
+#pop {
+  width: 90%;
+}
+#pop .input-field,.btn {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+}
+/* CSS for mobile devices */
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.form-content {
+  margin-top: 1rem;
+}
+.col-md-3,
+  .col-md-5 {
+    display: flex;
+    justify-content: center;
+}
+/* CSS for larger devices */
+@media (min-width: 768px) {
+  .row {
+    justify-content: space-around;
+  }
+  
+  .col-md-3,
+  .col-md-5 {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+
+  }
+  
+  .col-md-3 {
+    flex: 0 0 25%;
+  }
+  
+  .col-md-5 {
+    flex: 0 0 41.66667%;
+  }
+}
+
+img {
+  height: 250px;
+}
+/* Additional styles for the images */
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  #pop{
+    width: 80%;
+    margin: 20px;
+  }
+ 
 }
